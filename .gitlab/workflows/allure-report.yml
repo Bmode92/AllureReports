@@ -1,0 +1,35 @@
+image: maven:3.8.4-openjdk-17-slim
+
+variables:
+  ALLURE_RESULTS: "target/allure-results"
+  ALLURE_REPORT: "target/site/allure-maven"
+
+stages:
+  - test
+  - report
+
+test:
+  stage: test
+  script:
+    - mvn test
+  after_script:
+    - mvn allure:report
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - ${ALLURE_REPORT}
+    expire_in: 1 days
+
+pages:
+  stage: report
+  needs:
+    - test
+  script:
+    - mkdir -p public
+    - cp -r ${ALLURE_REPORT}* public
+  artifacts:
+    when: always
+    paths:
+      - public/
+    expire_in: never
