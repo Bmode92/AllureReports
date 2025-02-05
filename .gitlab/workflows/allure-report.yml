@@ -10,6 +10,16 @@ stages:
 
 test:
   stage: test
+  before_script:
+    - mkdir -p ${ALLURE_RESULTS}
+    - mkdir -p public
+    - mkdir -p public/history
+    - apt-get update && apt-get install -y unzip
+#    - 'curl --location --output artifacts.zip "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/main/download?job=pages&job_token=$CI_JOB_TOKEN"'
+    - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: $MY_TOKEN" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/main/download?job=pages"'
+    - unzip artifacts.zip
+    - chmod -R 777 public
+    - cp -r public/history ${ALLURE_RESULTS}
   script:
     - mvn test
   after_script:
@@ -26,8 +36,7 @@ pages:
   needs:
     - test
   script:
-    - mkdir -p public
-    - cp -r ${ALLURE_REPORT}/* public
+    - cp -r ${ALLURE_REPORT}* public
   artifacts:
     when: always
     paths:
