@@ -13,11 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CalculatorTests extends BaseTest {
 
     //https://allurereport.org/docs/install/
-
     //mvn clean test > run test
-
     //allure serve target/allure-results > generate result from test run
-
+    //glpat-z1EEA1JRWqXeyb95xrT8
+    //https://gitlab.com/StanislavPodlipenskyi/demoalluregitlab
 
 
     @Test
