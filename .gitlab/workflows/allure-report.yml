@@ -27,7 +27,7 @@ pages:
     - test
   script:
     - mkdir -p public
-    - cp -r ${ALLURE_REPORT}* public
+    - cp -r ${ALLURE_REPORT}/* public
   artifacts:
     when: always
     paths:
